@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Footer from "./components/footer";
+import Header from "./components/header";
+import LandingPage from "./screens/landingPage/LandingPage";
+import MyNotes from "./screens/myNotes/MyNotes";
+import SingleNote from "./screens/singleNote/SingleNote";
+import LoginScreen from "./screens/loginScreen/LoginScreen";
+import RegisterScreen from "./screens/registerScreen/RegisterScreen";
+import CreateNote from "./screens/singleNote/CreateNote";
+import { useState } from "react";
+import ProfileScreen from "./screens/profileScreen/ProfileScreen";
 
 function App() {
+  const [search, setSearch] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header setSearch={(s) => setSearch(s)} />
+      <main className="App">
+        <Route path="/" component={LandingPage} exact />
+        <Route path="/login" component={LoginScreen} />
+        <Route path="/register" component={RegisterScreen} />
+        <Route
+          path="/mynotes"
+          component={({ history }) => (
+            <MyNotes search={search} history={history} />
+          )}
+        />
+        <Route path="/note/:id" component={SingleNote} />
+        <Route path="/createnote" component={CreateNote} />;
+        <Route path="/profile" component={ProfileScreen} />
+      </main>
+      <Footer />
+    </Router>
   );
 }
 
